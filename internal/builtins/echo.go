@@ -2,6 +2,7 @@ package builtins
 
 import (
 	"fmt"
+	"os"
 	"strings"
 )
 
@@ -12,7 +13,23 @@ func NewEcho() *Echo {
 }
 
 func (e *Echo) Execute(sh ShellContext, args []string) error {
-	msg := strings.Join(args[1:], " ")
-	fmt.Println(msg)
+	if len(args) <= 1 {
+		fmt.Println()
+		return nil
+	}
+
+	var res strings.Builder
+
+	for _, arg := range args[1:] {
+		if len(arg) > 0 && arg[0] == '$' {
+			res.WriteString(os.Getenv(arg[1:]))
+		} else {
+			res.WriteString(arg)
+		}
+
+		res.WriteByte(' ')
+	}
+
+	fmt.Println(strings.TrimSpace(res.String()))
 	return nil
 }
