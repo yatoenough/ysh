@@ -19,6 +19,7 @@ Features:
 - Navigation
 - Autocompletion
 - History
+- External programs execution
 
 This project uses [readline](https://github.com/chzyer/readline) library to arrow history navigation and autocompletion
 
